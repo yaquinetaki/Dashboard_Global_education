@@ -31,3 +31,4 @@ def Diagramme_enfants_non_scolarisé(df, nom_pays):
     fig.for_each_trace(lambda t: t.update(name = new_names[t.name]))
     
     return fig
+#test commit
