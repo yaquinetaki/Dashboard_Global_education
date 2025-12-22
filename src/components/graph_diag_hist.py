@@ -32,3 +32,12 @@ def Diagramme_enfants_non_scolarisé(df, nom_pays):
     
     return fig
 #test commit
+
+# Fonction pour créer l'histogramme du taux de scolarisation tertiaire par pays
+def Histogramme(df):
+
+        # Préparation des données (filtrage et calcul des moyennes par région)
+    df_histo_filtre = df.dropna(subset=['Code', 'Year', col_taux_F, col_taux_H])
+    df_histo_filtre = df_histo_filtre[df_histo_filtre['Year'] >= 2010]
+    df_histo = df_histo_filtre.sort_values('Year').drop_duplicates(subset='Code', keep='last')
+    df_histo = df_histo.groupby(col_region)[[col_taux_F, col_taux_H]].mean()
