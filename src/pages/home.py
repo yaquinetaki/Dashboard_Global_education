@@ -1,5 +1,4 @@
-
-import dasH
+import dash
 from dash import html, dcc, callback, Input, Output
 import folium
 import pandas as pd
@@ -7,6 +6,7 @@ import pandas as pd
 from src.utils.clean_data import get_donnees_pretes
 from src.components.graph_diag_hist import Diagramme_enfants_non_scolarisé, Histogramme, Nuage_de_points
 from src.components.variables import col_femme, col_homme, col_region, col_lays, col_no_education
+
 
 # On déclare la page pour Dash
 dash.register_page(__name__, path='/')
@@ -41,6 +41,7 @@ if world_geo is not None:
 
 # On convertit la carte en HTML pour l'afficher dans Dash
 map_html_string = map_folium.get_root().render()
+
 # Liste des pays pour le menu déroulant
 df_pour_le_menu = df_final.dropna(subset=[col_homme, col_femme], how='all')
 liste_pays = sorted(df_pour_le_menu['Entity'].unique())
@@ -82,13 +83,15 @@ layout = html.Div([
 
     # Nuage de points (scatter)
     html.Div([
-        html.H3("Nuage de points : LAYS vs Enfants non scolarisés (par région)"),
-        html.Label("Choisis une année :"),
+        html.H3("Analyse par région : Qualité d'apprentissage vs Absence de scolarisation"),
+        html.H4("Nuage de points (LAYS vs Enfants Non Scolarisés: Qualité vs Accès)"),
+        html.Label("Sélectionnez une ou plusieurs régions:"),
         dcc.Dropdown(
-            id="annee-scatter",
-            options=[{"label": int(a), "value": int(a)} for a in liste_annees],
-            value=liste_annees[-1] if len(liste_annees) > 0 else None,
-            style={"width": "200px"}
+            id="region-scatter",
+            options=[{"label": r, "value": r} for r in liste_regions],
+            multi=True, 
+            placeholder="Toutes les régions",
+            style={"width": "100%"}
         ),
         dcc.Graph(id="graph-scatter")
     ])
@@ -104,7 +107,7 @@ def update_graph(pays_choisi):
 # Mise à jour du nuage de points selon l'année sélectionnée
 @callback(
     Output("graph-scatter", "figure"),
-    Input("annee-scatter", "value")
+    Input("region-scatter", "value")
 )
-def update_scatter(annee):
-    return Nuage_de_points(df_final, annee)
+def update_scatter(regions_choisies):
+    return Nuage_de_points(df_final, regions_choisies)
