@@ -17,6 +17,7 @@ def Diagramme_enfants_non_scolarisé(df, nom_pays):
     # On sélectionne les données du pays choisi
     df_pays = df[df["Entity"] == nom_pays].sort_values("Year")
 
+
     # Création du diagramme en barres empilées
     fig = px.bar(
         df_pays,
@@ -29,39 +30,37 @@ def Diagramme_enfants_non_scolarisé(df, nom_pays):
     # Renommage des catégories dans la légende
     new_names = {col_homme: "Garçons", col_femme: "Filles"}
     fig.for_each_trace(lambda t: t.update(name = new_names[t.name]))
-    
+   
     return fig
 #test commit
-
 # Fonction pour créer l'histogramme du taux de scolarisation tertiaire par pays
 def Histogramme(df):
-
-        # Préparation des données (filtrage et calcul des moyennes par région)
+    # Préparation des données (filtrage et calcul des moyennes par région)
     df_histo_filtre = df.dropna(subset=['Code', 'Year', col_taux_F, col_taux_H])
     df_histo_filtre = df_histo_filtre[df_histo_filtre['Year'] >= 2010]
     df_histo = df_histo_filtre.sort_values('Year').drop_duplicates(subset='Code', keep='last')
     df_histo = df_histo.groupby(col_region)[[col_taux_F, col_taux_H]].mean()
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> b5876ff57d92d25ad9c0771e4de508bc967be097
-    # Tri des régions pour une meilleure lisibilité du graphique
-    df_histo = df_histo.sort_values(by=col_taux_F,ascending=False)
-    df_histo[col_taux_H]= df_histo[col_taux_H]*(-1) # Valeurs négatives pour afficher un histogramme en miroir
+    # Tri des régions
+    df_histo = df_histo.sort_values(by=col_taux_F, ascending=False)
+    df_histo[col_taux_H] = df_histo[col_taux_H] * (-1)
+
     df_long = df_histo.reset_index().melt(
-    id_vars=[col_region],
-    value_vars=[col_taux_F, col_taux_H],
-    var_name='Genre',
-    value_name='Taux_Scolarisation tertiaire'
+        id_vars=[col_region],
+        value_vars=[col_taux_F, col_taux_H],
+        var_name='Genre',
+        value_name='Taux_Scolarisation tertiaire'
     )
-    df_long['Taux_Scolarisation_tertiaire']= df_long['Taux_Scolarisation tertiaire'].abs()
+
+    df_long['Taux_Scolarisation_tertiaire'] = df_long['Taux_Scolarisation tertiaire'].abs()
+
     mapping_genre = {
         col_taux_F: 'Femmes',
         col_taux_H: 'Hommes'
     }
     df_long['Genre'] = df_long['Genre'].replace(mapping_genre)
-    his= px.bar(
+
+    his = px.bar(
         df_long,
         x='Taux_Scolarisation tertiaire',
         y=col_region,
@@ -69,29 +68,31 @@ def Histogramme(df):
         orientation='h',
         color='Genre',
         color_discrete_map={'Femmes': 'lightpink', 'Hommes': 'lightblue'},
-        hover_data={ 'Taux_Scolarisation tertiaire': False, 'Taux_Scolarisation_tertiaire': ':.1f'},
+        hover_data={
+            'Taux_Scolarisation tertiaire': False,
+            'Taux_Scolarisation_tertiaire': ':.1f'
+        },
         height=600
-<<<<<<< HEAD
     )
-=======
-    )
-    # Ajustement de l’axe X pour une meilleure lecture
+
+    # Ajustement de l’axe X
     his.update_layout(
         xaxis=dict(
-        tickmode='array',
-        tickvals=[-100,-75,-50,-25,0,25,50,75,100],
-        ticktext=['100','75','50','25','0','25','50','75','100'],
-        title='Taux Brut d\'Inscription Tertiaire (%)'
+            tickmode='array',
+            tickvals=[-100, -75, -50, -25, 0, 25, 50, 75, 100],
+            ticktext=['100', '75', '50', '25', '0', '25', '50', '75', '100'],
+            title="Taux Brut d'Inscription Tertiaire (%)"
         ),
         yaxis=dict(
             title='Régions',
-            dtick=1,), # Afficher toutes les régions
-        barmode='relative')
-    return his    
+            dtick=1
+        ),
+        barmode='relative'
+    )
 
+    return his
 
 # Fonction pour créer le nuage de points : LAYS vs enfants non scolarisés (par région)
-
 
 def Nuage_de_points(df, regions_choisies):
     # Calcul du nombre total d'enfants non scolarisés (filles + garçons)
@@ -116,9 +117,8 @@ def Nuage_de_points(df, regions_choisies):
             col_no_education: "% Population sans éducation"
         }
     )
-   
+
     # Mise en forme des points (taille et transparence)
     fig.update_traces(marker=dict(size=10, opacity=0.6))
-    
+   
     return fig
->>>>>>> b5876ff57d92d25ad9c0771e4de508bc967be097
