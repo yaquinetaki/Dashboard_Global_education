@@ -54,59 +54,101 @@ liste_pays = sorted(df_pour_le_menu['Entity'].unique())
 
 
 # Mise en page du dashboard
-layout = html.Div([
-    html.H1("Dashboard: L'éducation à travers le monde", style={'textAlign': 'center'}),
-
-
-    # Carte
-    html.Div([
-        html.H3("Carte du Monde (LAYS)"),
-        html.Iframe(srcDoc=map_html_string, width='100%', height='500', style={'border': 'none'})
-    ]),
-
-
-    html.Hr(),
-
-
-    # Diagramme
-    html.Div([
-        html.H3("Diagramme des Enfants Non Scolarisés par Genre"),
-        html.Label("Choisis un pays :"),
-        dcc.Dropdown(
-            id='mon-dropdown',
-            options=[{'label': code, 'value': code} for code in liste_pays],
-            value='France',
-            style={'width': '50%'}
+layout = html.Div(
+    className="container",
+    children=[
+        # En-tête
+        html.Div(
+            className="header",
+            children=[
+                html.H1("Dashboard : L'éducation à travers le monde", style={"textAlign": "center"}),
+                html.P(
+                    "LAYS (Learning-Adjusted Years of School) : nombre moyen d’années de scolarité ajustées selon la qualité des apprentissages.",
+                    className="small-text",
+                ),
+            ],
         ),
-        dcc.Graph(id='mon-graphique')
-    ]),
 
-
-    html.Hr(),
-
-    # Histogramme
-    html.Div([
-        html.H3("Histogramme du Taux de Scolarisation Tertiaire par Région"),
-        dcc.Graph(figure=Histogramme(df_final))
-    ]),
-
-    html.Hr(),
-
-    # Nuage de points (scatter)
-    html.Div([
-        html.H3("Analyse par région : Qualité d'apprentissage vs Absence de scolarisation"),
-        html.H4("Nuage de points (LAYS vs Enfants Non Scolarisés: Qualité vs Accès)"),
-        html.Label("Sélectionnez une ou plusieurs régions:"),
-        dcc.Dropdown(
-            id="region-scatter",
-            options=[{"label": r, "value": r} for r in liste_regions],
-            multi=True,
-            placeholder="Toutes les régions",
-            style={"width": "100%"}
+        # Carte du monde
+        html.Div(
+            className="card",
+            children=[
+                html.H3("Carte du Monde (LAYS)", style={"textAlign": "center"}),
+                html.Iframe(
+                    srcDoc=map_html_string,
+                    width="100%",
+                    height="520",
+                    style={"border": "none"},
+                ),
+            ],
         ),
-        dcc.Graph(id="graph-scatter")
-    ])
-])
+
+        # Graphiques côte à côte
+        html.Div(
+            className="grid",
+            children=[
+                # Diagramme enfants non scolarisés
+                html.Div(
+                    className="card",
+                    children=[
+                        html.H3("Enfants Non Scolarisés par Genre", style={"textAlign": "center"}),
+                        html.Label("Choisis un pays :", className="label"),
+                        dcc.Dropdown(
+                            id="mon-dropdown",
+                            options=[{"label": p, "value": p} for p in liste_pays],
+                            value="France",
+                            style={"width": "80%"},
+                        ),
+                        dcc.Graph(
+                            id="mon-graphique",
+                            className="graph",
+                            style={"height": "460px"},
+                        ),
+                    ],
+                ),
+
+                # Histogramme tertiaire
+                html.Div(
+                    className="card",
+                    children=[
+                        html.H3(
+                            "Taux de Scolarisation Tertiaire par Région",
+                            style={"textAlign": "center"},
+                        ),
+                        dcc.Graph(
+                            figure=Histogramme(df_final),
+                            className="graph",
+                            style={"height": "540px"},
+                        ),
+                    ],
+                ),
+            ],
+        ),
+
+        # Nuage de points
+        html.Div(
+            className="card",
+            children=[
+                html.H3(
+                    "Qualité d'apprentissage vs Absence de scolarisation",
+                    style={"textAlign": "center"},
+                ),
+                html.Label("Sélectionnez une ou plusieurs régions :", className="label"),
+                dcc.Dropdown(
+                    id="region-scatter",
+                    options=[{"label": r, "value": r} for r in liste_regions],
+                    multi=True,
+                    placeholder="Toutes les régions",
+                ),
+                dcc.Graph(
+                    id="graph-scatter",
+                    className="graph",
+                    style={"height": "520px"},
+                ),
+            ],
+        ),
+    ],
+)
 
 # Mise à jour du graphique selon le pays sélectionné
 @callback(

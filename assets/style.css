@@ -1,0 +1,58 @@
+/*Style général de la page*/
+body{
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: pink !important; /* fond rose du dashboard */
+}
+
+/*Conteneur principal*/
+.container{
+  max-width: 1200px;     /* largeur max du contenu */
+  margin: 0 auto;        /* centrage horizontal */
+  padding: 24px;         /* espace intérieur */
+}
+
+/*En-tête du dashboard*/
+.header{
+  background: white;
+  padding: 18px;
+  border-radius: 14px;   /* coins arrondis */
+  text-align: center;    /* titre centré */
+  margin-bottom: 14px;
+}
+
+/* Cartes des graphiques*/
+.card{
+  background: white;
+  padding: 14px;
+  border-radius: 14px;
+  margin: 14px 0;        /* espace entre les cartes */
+}
+
+/* Grille à 2 colonnes (diagramme + histogramme)*/
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* deux colonnes égales */
+  gap: 30px;                      /* espace entre les deux cartes */
+}
+
+/*Titres*/
+h1, h3{
+  text-align: center;    /* titres centrés */
+}
+
+/*Texte secondaire définition LAYS, sources)*/
+.small-text{
+  font-size: 12px;       /* texte plus petit */
+  color: #444;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Sur petit écran (téléphone), les graphiques passent l’un sous l’autre */
+@media (max-width: 900px){
+  .grid{
+    grid-template-columns: 1fr; /* une seule colonne sur petit écran */
+  }
+}
+
