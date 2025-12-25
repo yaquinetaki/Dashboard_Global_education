@@ -83,47 +83,44 @@ layout = html.Div(
             ],
         ),
 
-        # Graphiques côte à côte
-        html.Div(
-            className="grid",
-            children=[
-                # Diagramme enfants non scolarisés
-                html.Div(
-                    className="card",
-                    children=[
-                        html.H3("Enfants Non Scolarisés par Genre", style={"textAlign": "center"}),
-                        html.Label("Choisis un pays :", className="label"),
-                        dcc.Dropdown(
-                            id="mon-dropdown",
-                            options=[{"label": p, "value": p} for p in liste_pays],
-                            value="France",
-                            style={"width": "80%"},
-                        ),
-                        dcc.Graph(
-                            id="mon-graphique",
-                            className="graph",
-                            style={"height": "460px"},
-                        ),
-                    ],
-                ),
+        # Graphique 1
+    html.Div(
+        className="card",
+        children=[
+            html.H3(
+                "Enfants Non Scolarisés par Genre",
+                style={"textAlign": "center"},
+            ),
+            html.Label("Choisis un pays :", className="label"),
+            dcc.Dropdown(
+                id="mon-dropdown",
+                options=[{"label": p, "value": p} for p in liste_pays],
+                value="France",
+                style={"width": "80%"},
+            ),
+            dcc.Graph(
+                id="mon-graphique",
+                className="graph",
+                style={"height": "460px"},
+            ),
+        ],
+    ),
 
-                # Histogramme tertiaire
-                html.Div(
-                    className="card",
-                    children=[
-                        html.H3(
-                            "Taux de Scolarisation Tertiaire par Région",
-                            style={"textAlign": "center"},
-                        ),
-                        dcc.Graph(
-                            figure=Histogramme(df_final),
-                            className="graph",
-                            style={"height": "540px"},
-                        ),
-                    ],
-                ),
-            ],
-        ),
+    # Graphique 2
+    html.Div(
+        className="card",
+        children=[
+            html.H3(
+                "Taux de Scolarisation Tertiaire par Région",
+                style={"textAlign": "center"},
+            ),
+            dcc.Graph(
+                figure=Histogramme(df_final),
+                className="graph",
+                style={"height": "540px"},
+            ),
+        ],
+    ),
 
         # Nuage de points
         html.Div(
