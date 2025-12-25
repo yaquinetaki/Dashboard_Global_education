@@ -2,7 +2,8 @@
 body{
   margin: 0;
   font-family: Arial, sans-serif;
-  background: pink !important; /* fond rose du dashboard */
+  background-image: url(https://img.freepik.com/vecteurs-libre/conception-modele-plat-retour-ecole_23-2149491157.jpg?t=st=1766665712~exp=1766669312~hmac=833626910e5ae7faff2ea84501baad4d8d7ba9cfd1379afa1313e7bf2c31fc4b);
+  
 }
 
 /*Conteneur principal*/
@@ -10,6 +11,8 @@ body{
   max-width: 1200px;     /* largeur max du contenu */
   margin: 0 auto;        /* centrage horizontal */
   padding: 24px;         /* espace intérieur */
+  background-color: rgb(186, 215, 238);
+  
 }
 
 /*En-tête du dashboard*/
