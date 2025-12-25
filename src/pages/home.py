@@ -52,20 +52,16 @@ map_html_string = map_folium.get_root().render()
 df_pour_le_menu = df_final.dropna(subset=[col_homme, col_femme], how='all')
 liste_pays = sorted(df_pour_le_menu['Entity'].unique())
 
-
 # Mise en page du dashboard
 layout = html.Div(
     className="container",
     children=[
-        # En-tête
+
+        # Header (SANS la définition LAYS)
         html.Div(
             className="header",
             children=[
-                html.H1("Dashboard : L'éducation à travers le monde", style={"textAlign": "center"}),
-                html.P(
-                    "LAYS (Learning-Adjusted Years of School) : nombre moyen d’années de scolarité ajustées selon la qualité des apprentissages.",
-                    className="small-text",
-                ),
+                html.H1("Dashboard : L'éducation à travers le monde"),
             ],
         ),
 
@@ -73,12 +69,19 @@ layout = html.Div(
         html.Div(
             className="card",
             children=[
-                html.H3("Carte du Monde (LAYS)", style={"textAlign": "center"}),
+                html.H3("Carte du Monde (LAYS)"),
+
+                # Définition LAYS sous la carte
+                html.P(
+                    "LAYS (Learning-Adjusted Years of School) : nombre moyen d’années de scolarité ajustées selon la qualité des apprentissages.",
+                    className="small-text"
+                ),
+
                 html.Iframe(
                     srcDoc=map_html_string,
                     width="100%",
                     height="520",
-                    style={"border": "none"},
+                    style={"border": "none"}
                 ),
             ],
         ),
@@ -87,11 +90,12 @@ layout = html.Div(
         html.Div(
             className="grid",
             children=[
+
                 # Diagramme enfants non scolarisés
                 html.Div(
                     className="card",
                     children=[
-                        html.H3("Enfants Non Scolarisés par Genre", style={"textAlign": "center"}),
+                        html.H3("Enfants Non Scolarisés par Genre"),
                         html.Label("Choisis un pays :", className="label"),
                         dcc.Dropdown(
                             id="mon-dropdown",
@@ -101,7 +105,6 @@ layout = html.Div(
                         ),
                         dcc.Graph(
                             id="mon-graphique",
-                            className="graph",
                             style={"height": "460px"},
                         ),
                     ],
@@ -111,13 +114,9 @@ layout = html.Div(
                 html.Div(
                     className="card",
                     children=[
-                        html.H3(
-                            "Taux de Scolarisation Tertiaire par Région",
-                            style={"textAlign": "center"},
-                        ),
+                        html.H3("Taux de Scolarisation Tertiaire par Région"),
                         dcc.Graph(
                             figure=Histogramme(df_final),
-                            className="graph",
                             style={"height": "540px"},
                         ),
                     ],
@@ -129,10 +128,7 @@ layout = html.Div(
         html.Div(
             className="card",
             children=[
-                html.H3(
-                    "Qualité d'apprentissage vs Absence de scolarisation",
-                    style={"textAlign": "center"},
-                ),
+                html.H3("Qualité d'apprentissage vs Absence de scolarisation"),
                 html.Label("Sélectionnez une ou plusieurs régions :", className="label"),
                 dcc.Dropdown(
                     id="region-scatter",
@@ -142,13 +138,13 @@ layout = html.Div(
                 ),
                 dcc.Graph(
                     id="graph-scatter",
-                    className="graph",
                     style={"height": "520px"},
                 ),
             ],
         ),
     ],
 )
+
 
 # Mise à jour du graphique selon le pays sélectionné
 @callback(

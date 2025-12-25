@@ -2,17 +2,26 @@
 body{
   margin: 0;
   font-family: Arial, sans-serif;
+
   background-image: url(https://img.freepik.com/vecteurs-libre/conception-modele-plat-retour-ecole_23-2149491157.jpg?t=st=1766665712~exp=1766669312~hmac=833626910e5ae7faff2ea84501baad4d8d7ba9cfd1379afa1313e7bf2c31fc4b);
-  
+
+  /* transparence */
+  background-color: rgba(255, 255, 255, 0.45);
+  background-blend-mode: lighten;
+
+  /* L'Image garde sa taille d'origine pour éviter un zoom */
+  background-size: auto;
+  background-repeat: repeat;
 }
 
 /*Conteneur principal*/
 .container{
-  max-width: 1200px;     /* largeur max du contenu */
-  margin: 0 auto;        /* centrage horizontal */
-  padding: 24px;         /* espace intérieur */
-  background-color: rgb(186, 215, 238);
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+
+  /* Fond bleu clair semi-transparent */
+  background-color: rgba(239, 240, 240, 0.883); 
 }
 
 /*En-tête du dashboard*/
