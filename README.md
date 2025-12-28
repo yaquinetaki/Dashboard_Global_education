@@ -6,7 +6,7 @@ Dashboard_Global_education/
 │
 ├── assets/                       # Ressources visuelles : CSS automatiquement chargé par Dash
 │   └── style.css
-│   ├── images/                   # Captures d’écran du dashboard (optionnel)
+│   ├── images/                   # Captures d’écran du dashboard
 │
 ├── data/                         # Dossier des données
 │   │
@@ -136,7 +136,7 @@ permet l’accès au dashboard depuis un navigateur.
 
 Pour arrêter l’application, il suffit d’interrompre l’exécution dans le terminal en mettant : 
     CTRL + C
-L’environnement virtuel peut ensuite être désactivé en mettant dans lz teerminal : 
+L’environnement virtuel peut ensuite être désactivé en mettant dans le terminal : 
     deactivate
 
 III. Données utilisées
