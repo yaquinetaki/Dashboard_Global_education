@@ -111,7 +111,7 @@ def Nuage_de_points(df, regions_choisies):
     )
 
     fig.update_layout(
-        title=dict(x=0, font=dict(size=15)),   # ✅ titre à gauche
+        title=dict(x=0, font=dict(size=15)),   #titre à gauche
         xaxis_title=dict(
             text="Niveau d’éducation (LAYS)",
             font=dict(size=13, color="#195a70", style="italic")
