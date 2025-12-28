@@ -6,7 +6,7 @@ Dashboard_Global_education/
 │
 ├── assets/                       # Ressources visuelles : CSS automatiquement chargé par Dash
 │   └── style.css
-│   ├── images/                   # Captures d’écran du dashboard (optionnel)
+│   ├── images/                   # image esthétique : fond du dashboard (image libre de droit)
 │
 ├── data/                         # Dossier des données
 │   │
@@ -136,7 +136,7 @@ permet l’accès au dashboard depuis un navigateur.
 
 Pour arrêter l’application, il suffit d’interrompre l’exécution dans le terminal en mettant : 
     CTRL + C
-L’environnement virtuel peut ensuite être désactivé en mettant dans lz teerminal : 
+L’environnement virtuel peut ensuite être désactivé en mettant dans le terminal : 
     deactivate
 
 III. Données utilisées
@@ -207,7 +207,6 @@ Le projet peut évoluer à travers différents axes tels que :
 
 - l’ajout de nouveaux graphiques et indicateurs ;
 - l’enrichissement des interactions utilisateurs ;
-- l’intégration d’une dimension temporelle ;
 - l’amélioration de la représentation géographique et de l’ergonomie.
 
 V. Rapport d’analyse synthétique
@@ -216,10 +215,12 @@ V. Rapport d’analyse synthétique
 
 L’analyse fait apparaître :
 
-- des écarts marqués entre différentes régions du monde ;
-- un accès globalement plus favorable à l’éducation dans les pays développés ;
-- la persistance d’un nombre important d’enfants non scolarisés dans certaines zones ;
-- des inégalités de genre encore visibles dans plusieurs pays.
+- Dans le graphique à point la courbe est décroissante: Ce n'est pas seulement l'accès à l'école qui compte, mais la transmission du savoir. Un faible niveau LAYS traduit une absence d'éducation effective malgré la scolarisation.
+- Dans le diagramme et l'histogramme : La scolarisation des filles dépassent parfois celle des garçons dans les pays en voie de développement. Les garçons sont souvent retirés du système pour le travail manuel immédiat. La survie économique de la famille prime ici sur l'éducation.
+- Dans le diagramme la barre des femmes dépasse celle des hommes : Les femmes investissent aujourd'hui davantage dans les études longues que les hommes, de plus, le lieu de naissance détermine l'avenir; un jeune né dans une région développée a 10 fois plus de chances d'accéder à l'université qu'un jeune né en zone en voie de développement. 
+- Dans l'histogramme : Le nombre d'enfants hors du système a été divisé par 3 en 20 ans dans plusieurs pays (comme la France), l'accès de base s'est généralisé, même si la qualité reste le prochain défi.
+- Dans la carte du monde : Un fossé énorme persiste entre pays développés et en développement, Le lieu de naissance dicte encore trop souvent la qualité du futur d'un enfant. L'éducation n'est pas encore un droit universel égal.
+
 
 2. Limites de l’analyse
 
@@ -243,6 +244,6 @@ VI. Déclaration de conformité – Copyright
 
 Nous certifions que :
 
-- le code contenu dans ce dépôt a été produit par l’équipe projet ;
+- le code contenu dans ce dépôt a été produit par le binôme : Seridj Ines et Taki Yaquine;
 - toute portion de code issue d’une ressource externe est clairement citée et documentée ;
 - toute absence de mention constitue un cas de plagiat conformément aux règles académiques en vigueur.
