@@ -1,14 +1,45 @@
 from .variables import (
     col_femme,
     col_homme,
-    col_taux_F,
-    col_taux_H,
+    col_taux_F_t,
+    col_taux_H_t,
     col_region,
     col_no_education,
-    col_lays
+    col_lays,
+    col_F_P,
+    col_M_P,
+    col_F_S,
+    col_M_S,
 )
-
 import plotly.express as px
+
+def Camembert_niveaux(df, nom_pays):
+
+    colonnes_requises = [col_F_P, col_M_P, col_F_S, col_M_S, col_taux_F_t, col_taux_H_t] 
+    df_pays_complet = df[df['Entity'] == nom_pays].dropna(subset=colonnes_requises)
+    
+    # si aucune année n'a les 3 niveaux complets
+    if df_pays_complet.empty:
+        return px.pie(title=f"Aucune donnée complète disponible pour {nom_pays}")
+
+    #On trie par année pour prendre la plus récente (la dernière)
+    derniere_ligne = df_pays_complet.sort_values("Year", ascending=False).iloc[0]
+    annee_trouvee = derniere_ligne['Year']
+
+    # Calcul des moyennes
+    pri = (derniere_ligne[col_F_P] + derniere_ligne[col_M_P]) / 2
+    sec = (derniere_ligne[col_F_S] + derniere_ligne[col_M_S]) / 2
+    ter = (derniere_ligne[col_taux_F_t] + derniere_ligne[col_taux_H_t]) / 2
+
+    # Création du camembert
+    fig = px.pie(
+        names=['Primaire', 'Secondaire', 'Tertiaire'],
+        values=[pri, sec, ter],
+        title=f"Niveaux d'éducation : {nom_pays} (Dernière année dispo : {int(annee_trouvee)})",
+        hole=0.4,
+        color_discrete_sequence=['#FFB6C1', '#FFD700', '#87CEEB']
+    )
+    return fig
 
 def Diagramme_enfants_non_scolarisé(df, nom_pays):
     df_pays = df[df["Entity"] == nom_pays].sort_values("Year")
@@ -26,7 +57,7 @@ def Diagramme_enfants_non_scolarisé(df, nom_pays):
     fig.for_each_trace(lambda t: t.update(name=new_names[t.name]))
 
     fig.update_layout(
-        title=dict(x=0, font=dict(size=15)),   # ✅ titre à gauche
+        title=dict(x=0, font=dict(size=15)),   
         xaxis_title=dict(
             text="Année",
             font=dict(size=13, color="#195a70", style="italic")
@@ -41,28 +72,28 @@ def Diagramme_enfants_non_scolarisé(df, nom_pays):
 
 
 def Histogramme(df):
-    df_histo_filtre = df.dropna(subset=["Code", "Year", col_taux_F, col_taux_H])
+    df_histo_filtre = df.dropna(subset=["Code", "Year", col_taux_F_t, col_taux_H_t])
     df_histo_filtre = df_histo_filtre[df_histo_filtre["Year"] >= 2010]
 
     df_histo = (
         df_histo_filtre.sort_values("Year")
         .drop_duplicates(subset="Code", keep="last")
-        .groupby(col_region)[[col_taux_F, col_taux_H]]
+        .groupby(col_region)[[col_taux_F_t, col_taux_H_t]]
         .mean()
     )
 
-    df_histo = df_histo.sort_values(by=col_taux_F, ascending=False)
-    df_histo[col_taux_H] *= -1
+    df_histo = df_histo.sort_values(by=col_taux_F_t, ascending=False)
+    df_histo[col_taux_H_t] *= -1
 
     df_long = df_histo.reset_index().melt(
         id_vars=[col_region],
-        value_vars=[col_taux_F, col_taux_H],
+        value_vars=[col_taux_F_t, col_taux_H_t],
         var_name="Genre",
         value_name="Taux_Scolarisation tertiaire"
     )
 
     df_long["Taux_Scolarisation_tertiaire"] = df_long["Taux_Scolarisation tertiaire"].abs()
-    df_long["Genre"] = df_long["Genre"].replace({col_taux_F: "Femmes", col_taux_H: "Hommes"})
+    df_long["Genre"] = df_long["Genre"].replace({col_taux_F_t: "Femmes", col_taux_H_t: "Hommes"})
 
     his = px.bar(
         df_long,
@@ -76,7 +107,7 @@ def Histogramme(df):
     )
 
     his.update_layout(
-        title=dict(x=0, font=dict(size=15)),   # ✅ titre à gauche
+        title=dict(x=0, font=dict(size=15)),   
         xaxis=dict(
             title=dict(
                 text="Taux Brut d'Inscription Tertiaire (%)",
