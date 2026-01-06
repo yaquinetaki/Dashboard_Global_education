@@ -75,3 +75,8 @@ h1, h3{
   }
 }
 
+/* Onglets (simple) */
+.tab {
+  padding: 10px !important;
+  font-weight: bold;
+}
