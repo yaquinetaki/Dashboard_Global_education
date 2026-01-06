@@ -18,7 +18,8 @@ map_html_string = Carte_LAYS(df_final, world_geo)
 
 df_ok = df_final.dropna(subset=[col_lays, col_region, col_no_education, "Year"])
 liste_regions = sorted(df_ok[col_region].dropna().unique())
-
+df_pour_le_menu = df_final.dropna(subset=[col_homme, col_femme], how="all")
+liste_pays = sorted(df_pour_le_menu["Entity"].unique())
 
 # ===== Layout =====
 layout = html.Div(
