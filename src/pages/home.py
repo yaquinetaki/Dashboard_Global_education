@@ -13,7 +13,11 @@ from src.components.variables import col_femme, col_homme, col_region, col_lays,
 # Enregistrement de la page comme page d'accueil
 dash.register_page(__name__, path="/")
 
+<<<<<<< Updated upstream
 # Chargement des données
+=======
+# Données
+>>>>>>> Stashed changes
 df_final, world_geo = get_donnees_pretes()
 map_html_string = Carte_LAYS(df_final, world_geo)
 
@@ -24,7 +28,11 @@ liste_regions = sorted(df_ok[col_region].dropna().unique())
 df_pour_le_menu = df_final.dropna(subset=[col_homme, col_femme], how="all")
 liste_pays = sorted(df_pour_le_menu["Entity"].unique())
 
+<<<<<<< Updated upstream
 # Structure de la page
+=======
+# Layout
+>>>>>>> Stashed changes
 layout = html.Div(
     className="container",  
     children=[
@@ -168,7 +176,11 @@ layout = html.Div(
     ],
 )
 
+<<<<<<< Updated upstream
 # Fonction qui met à jour les graphiques quand on change de pays
+=======
+# Callbacks
+>>>>>>> Stashed changes
 @callback(
     Output("mon-graphique", "figure"),
     Output("graph-camembert", "figure"),
