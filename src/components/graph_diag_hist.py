@@ -13,7 +13,6 @@ from .variables import (
 )
 import plotly.express as px
 import folium
-<<<<<<< Updated upstream
 
 def Carte_LAYS(df, world_geo):
     """
@@ -72,55 +71,6 @@ def Carte_LAYS(df, world_geo):
             aliases=["Pays :", "LAYS :", "Année :"],
             localize=True,
             sticky=False,
-=======
-from folium.features import GeoJsonTooltip
-import folium
-from folium.features import GeoJsonTooltip
-
-def Carte_LAYS(df, world_geo):
-    """
-    Carte Folium choroplèthe (LAYS) + tooltip, retourne le HTML (srcDoc pour Dash).
-    """
-
-    # Sécurité : colonne LAYS existe ?
-    if col_lays not in df.columns:
-        raise KeyError(f"Colonne '{col_lays}' absente. Colonnes dispo: {list(df.columns)}")
-
-    # 1) Dernière valeur LAYS par pays
-    df_map = (
-        df[["Code", "Year", col_lays]]
-        .dropna()
-        .sort_values("Year")
-        .drop_duplicates(subset="Code", keep="last")
-        [["Code", col_lays]]
-    )
-
-    # 2) Merge géométrie + données (pour tooltip)
-    gdf = world_geo.merge(df_map, left_on="ADM0_A3", right_on="Code", how="left")
-
-    # 3) Carte
-    m = folium.Map(location=[20, 0], tiles="OpenStreetMap", zoom_start=2)
-
-    folium.Choropleth(
-        geo_data=world_geo.to_json(),
-        data=df_map,
-        columns=["Code", col_lays],
-        key_on="feature.properties.ADM0_A3",
-        fill_color="YlGnBu",
-        fill_opacity=0.7,
-        line_opacity=0.2,
-        nan_fill_color="lightgray",
-        legend_name="LAYS (dernière année disponible)",
-    ).add_to(m)
-
-    # 4) Tooltip au survol
-    folium.GeoJson(
-        gdf.to_json(),
-        tooltip=GeoJsonTooltip(
-            fields=["ADMIN", col_lays],
-            aliases=["Pays", "LAYS"],
-            localize=True,
->>>>>>> Stashed changes
         ),
     ).add_to(map_folium)
 
@@ -169,11 +119,13 @@ def Camembert_niveaux(df, nom_pays):
         names=['Primaire', 'Secondaire', 'Tertiaire'],
         values=[pri, sec, ter],
         title=f"Niveaux d'éducation : {nom_pays} en {int(annee_trouvee)}",
-        hole=0.4,
+        hole=0.4, 
         color_discrete_sequence=['#FFB6C1', '#FFD700', '#87CEEB']
     )
+    fig.update_traces(
+    hovertemplate="%{label}<br>Part : %{percent:.1%}<extra></extra>"
+    )
     return fig
-
 
 def Diagramme_enfants_non_scolarisé(df, nom_pays):
     """
@@ -223,7 +175,6 @@ def Diagramme_enfants_non_scolarisé(df, nom_pays):
 
     return fig
 
-
 def Histogramme(df):
     """
     Crée un histogramme horizontal montrant les taux de scolarisation 
@@ -271,13 +222,18 @@ def Histogramme(df):
         height=600
     )
 
-    # Affichage en positif sur l'axe X qui nous permet de conserver l'effet miroir 
-    max_val = df_long["Taux_Scolarisation tertiaire"].abs().max()
-    ticks = [-max_val, -max_val/2, 0, max_val/2, max_val]
-
+    # --- MODIF : forcer la plage pour afficher le 100 à gauche ---
     his.update_xaxes(
-        tickvals=ticks,
-        ticktext=[str(int(abs(t))) for t in ticks]  # affiche les valeurs sans "-"
+        range=[-100, 100],
+        tickmode="array",
+        tickvals=[-100, -50, 0, 50, 100],
+        ticktext=["100", "50", "0", "50", "100"]
+    )
+
+    # Tooltip : afficher les valeurs positives
+    his.update_traces(
+        customdata=df_long["Taux_Scolarisation tertiaire"].abs(),
+        hovertemplate="Genre=%{fullData.name}<br>Taux=%{customdata:.2f}%<br>Région=%{y}<extra></extra>"
     )
 
     # Personnalisation des titres des axes
@@ -299,7 +255,6 @@ def Histogramme(df):
     )
 
     return his
-
 
 def Nuage_de_points(df, regions_choisies):
     """

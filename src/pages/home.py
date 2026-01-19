@@ -13,11 +13,7 @@ from src.components.variables import col_femme, col_homme, col_region, col_lays,
 # Enregistrement de la page comme page d'accueil
 dash.register_page(__name__, path="/")
 
-<<<<<<< Updated upstream
 # Chargement des données
-=======
-# Données
->>>>>>> Stashed changes
 df_final, world_geo = get_donnees_pretes()
 map_html_string = Carte_LAYS(df_final, world_geo)
 
@@ -28,28 +24,20 @@ liste_regions = sorted(df_ok[col_region].dropna().unique())
 df_pour_le_menu = df_final.dropna(subset=[col_homme, col_femme], how="all")
 liste_pays = sorted(df_pour_le_menu["Entity"].unique())
 
-<<<<<<< Updated upstream
 # Structure de la page
-=======
-# Layout
->>>>>>> Stashed changes
 layout = html.Div(
-    className="container",  
+    className="container",
     children=[
-
         # En-tête du dashboard
         html.Div(
             className="header",
-            children=[
-                html.H1("Dashboard : L'éducation à travers le monde")
-            ],
+            children=[html.H1("Dashboard : L'éducation à travers le monde")],
         ),
 
         # Système d'onglets pour organiser les différentes visualisations
         dcc.Tabs(
             value="tab-carte",
             children=[
-
                 # Premier onglet : carte mondiale
                 dcc.Tab(
                     label="Carte (LAYS)",
@@ -58,14 +46,10 @@ layout = html.Div(
                             className="card",
                             children=[
                                 html.H3("Carte du Monde (LAYS)"),
-
-                                # Explication de ce qu'est le LAYS
                                 html.P(
                                     "LAYS : nombre moyen d'années de scolarité ajustées selon la qualité des apprentissages.",
                                     className="small-text",
                                 ),
-
-                                # Intégration de la carte Folium via iframe
                                 html.Iframe(
                                     srcDoc=map_html_string,
                                     width="100%",
@@ -81,14 +65,10 @@ layout = html.Div(
                 dcc.Tab(
                     label="Analyse par pays",
                     children=[
-
-                        # Zone de sélection du pays
                         html.Div(
                             className="card",
                             children=[
                                 html.H3("Choix du pays"),
-
-                                # Menu déroulant avec la liste des pays
                                 dcc.Dropdown(
                                     id="mon-dropdown",
                                     options=[{"label": p, "value": p} for p in liste_pays],
@@ -99,32 +79,21 @@ layout = html.Div(
                             ],
                         ),
 
-                        # Disposition en grille des deux graphiques
                         html.Div(
                             className="grid",
                             children=[
-
-                                # Graphique sur les enfants non scolarisés
                                 html.Div(
                                     className="card",
                                     children=[
                                         html.H3("Enfants non scolarisés"),
-                                        dcc.Graph(
-                                            id="mon-graphique",
-                                            style={"height": "500px"}
-                                        ),
+                                        dcc.Graph(id="mon-graphique", style={"height": "500px"}),
                                     ],
                                 ),
-
-                                # Graphique camembert des niveaux scolaires
                                 html.Div(
                                     className="card",
                                     children=[
                                         html.H3("Niveaux scolaires"),
-                                        dcc.Graph(
-                                            id="graph-camembert",
-                                            style={"height": "500px"}
-                                        ),
+                                        dcc.Graph(id="graph-camembert", style={"height": "500px"}),
                                     ],
                                 ),
                             ],
@@ -136,37 +105,24 @@ layout = html.Div(
                 dcc.Tab(
                     label="Analyse par régions",
                     children=[
-
-                        # Histogramme comparatif des régions
                         html.Div(
                             className="card",
                             children=[
                                 html.H3("Taux de scolarisation tertiaire"),
-                                dcc.Graph(
-                                    figure=Histogramme(df_final),
-                                    style={"height": "500px"}
-                                ),
+                                dcc.Graph(figure=Histogramme(df_final), style={"height": "500px"}),
                             ],
                         ),
-
-                        # Nuage de points avec filtre par régions
                         html.Div(
                             className="card",
                             children=[
                                 html.H3("LAYS vs absence d'éducation"),
-
-                                # Menu pour sélectionner une ou plusieurs régions
                                 dcc.Dropdown(
                                     id="region-scatter",
                                     options=[{"label": r, "value": r} for r in liste_regions],
                                     multi=True,
                                     placeholder="Toutes les régions",
                                 ),
-
-                                dcc.Graph(
-                                    id="graph-scatter",
-                                    style={"height": "420px"}
-                                ),
+                                dcc.Graph(id="graph-scatter", style={"height": "420px"}),
                             ],
                         ),
                     ],
@@ -176,11 +132,7 @@ layout = html.Div(
     ],
 )
 
-<<<<<<< Updated upstream
-# Fonction qui met à jour les graphiques quand on change de pays
-=======
-# Callbacks
->>>>>>> Stashed changes
+# Callback : mise à jour des graphiques selon le pays choisi
 @callback(
     Output("mon-graphique", "figure"),
     Output("graph-camembert", "figure"),
@@ -192,7 +144,7 @@ def update_visuals(pays_choisi):
         Camembert_niveaux(df_final, pays_choisi),
     )
 
-# Fonction qui met à jour le nuage de points selon les régions sélectionnées
+# Callback : mise à jour du nuage de points selon les régions sélectionnées
 @callback(
     Output("graph-scatter", "figure"),
     Input("region-scatter", "value"),
