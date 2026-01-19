@@ -177,7 +177,7 @@ def Diagramme_enfants_non_scolarisé(df, nom_pays):
 def Histogramme(df):
     """
     Crée un histogramme horizontal montrant les taux de scolarisation 
-    tertiaire par région (comparaison femmes/hommes).
+    tertiaire par région (comparaison femmes/hommes) avec effet miroir.
     """
     # On garde seulement les données récentes (après 2010)
     df_histo_filtre = df.dropna(subset=["Code", "Year", col_taux_F_t, col_taux_H_t])
@@ -194,8 +194,8 @@ def Histogramme(df):
 
     # On trie les régions par taux féminin décroissant
     df_histo = df_histo.sort_values(by=col_taux_F_t, ascending=False)
-    
-    # On inverse les valeurs hommes pour créer un graphique en miroir
+
+    # Effet miroir : on inverse les valeurs hommes
     df_histo[col_taux_H_t] *= -1
 
     # Transformation des données pour Plotly (format long)
@@ -206,8 +206,7 @@ def Histogramme(df):
         value_name="Taux_Scolarisation tertiaire"
     )
 
-    # On remet les valeurs en positif et on renomme les genres
-    df_long["Taux_Scolarisation_tertiaire"] = df_long["Taux_Scolarisation tertiaire"].abs()
+    # Renommage des genres
     df_long["Genre"] = df_long["Genre"].replace({col_taux_F_t: "Femmes", col_taux_H_t: "Hommes"})
 
     # Création de l'histogramme horizontal
@@ -222,9 +221,18 @@ def Histogramme(df):
         height=600
     )
 
+    # Affichage en positif sur l'axe X qui nous permet de conserver l'effet miroir 
+    max_val = df_long["Taux_Scolarisation tertiaire"].abs().max()
+    ticks = [-max_val, -max_val/2, 0, max_val/2, max_val]
+
+    his.update_xaxes(
+        tickvals=ticks,
+        ticktext=[str(int(abs(t))) for t in ticks]  # affiche les valeurs sans "-"
+    )
+
     # Personnalisation des titres des axes
     his.update_layout(
-        title=dict(x=0, font=dict(size=15)),   
+        title=dict(x=0, font=dict(size=15)),
         xaxis=dict(
             title=dict(
                 text="Taux Brut d'Inscription Tertiaire (%)",
