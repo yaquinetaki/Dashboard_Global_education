@@ -6,7 +6,7 @@ Dashboard_Global_education/
 │
 ├── assets/                       # Ressources visuelles : CSS automatiquement chargé par Dash
 │   └── style.css
-│   ├── images/                   # Captures d’écran du dashboard (optionnel)
+│   ├── images/                   # Captures d’écran du dashboard
 │
 ├── data/                         # Dossier des données
 │   │
@@ -30,7 +30,7 @@ Dashboard_Global_education/
 ├── src/                          # Code source du dashboard
 │   ├── __init__.py               # Rend le dossier src importable
 │   │
-│   ├── components/               # Composants visuels : graphiques, histogrammes, variables
+│   ├── components/               # Composants visuels : graphiques, histogrammes, camembert, variables
 │   │   ├── __init__.py
 │   │   ├── graph_diag_hist.py    # Fonctions générant les graphiques
 │   │   └── variables.py          # Définition des constantes et noms de colonnes
@@ -197,7 +197,14 @@ Notre Dashboard comprend notamment :
 
 - main.py constitue le point d’entrée de l’application. Il initialise Dash, charge les données et pilote l’interface générale.
 - clean_data.py gère l’ensemble des opérations de nettoyage et de préparation des données.
-- graph_diag_hist.py regroupe les fonctions générant les graphiques et éléments visuels.
+
+- graph_diag_hist.py regroupe les fonctions générant les graphiques et éléments visuels comme : 
+        • une carte choroplèthe mondiale (LAYS) ;
+        • un diagramme en barres des enfants non scolarisés (Filles vs Garçons) ;
+        • un histogramme comparatif par région (inscription tertiaire Femmes/Hommes) ;
+        • un nuage de points illustrant la relation entre qualité de l’apprentissage (LAYS) et absence d’éducation ;
+        • un graphique en camembert synthétisant la répartition des niveaux éducatifs (primaire / secondaire / tertiaire).
+
 - home.py définit la page principale du dashboard et la structure de navigation.
 - les éléments du dossier data_geo servent de support cartographique.
 
@@ -220,6 +227,7 @@ L’analyse fait apparaître :
 - Dans le diagramme la barre des femmes dépasse celle des hommes : Les femmes investissent aujourd'hui davantage dans les études longues que les hommes, de plus, le lieu de naissance détermine l'avenir; un jeune né dans une région développée a 10 fois plus de chances d'accéder à l'université qu'un jeune né en zone en voie de développement. 
 - Dans l'histogramme : Le nombre d'enfants hors du système a été divisé par 3 en 20 ans dans plusieurs pays (comme la France), l'accès de base s'est généralisé, même si la qualité reste le prochain défi.
 - Dans la carte du monde : Un fossé énorme persiste entre pays développés et en développement, Le lieu de naissance dicte encore trop souvent la qualité du futur d'un enfant. L'éducation n'est pas encore un droit universel égal.
+- Dans le camembert (niveaux d’éducation) : la répartition primaire/secondaire/tertiaire varie fortement selon les pays. Les pays développés présentent généralement une part plus élevée d’inscription au tertiaire, tandis que certains pays en développement restent concentrés sur le primaire/secondaire.
 
 
 2. Limites de l’analyse
