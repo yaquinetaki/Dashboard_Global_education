@@ -13,6 +13,7 @@ from .variables import (
 )
 import plotly.express as px
 import folium
+<<<<<<< Updated upstream
 
 def Carte_LAYS(df, world_geo):
     """
@@ -71,6 +72,55 @@ def Carte_LAYS(df, world_geo):
             aliases=["Pays :", "LAYS :", "Année :"],
             localize=True,
             sticky=False,
+=======
+from folium.features import GeoJsonTooltip
+import folium
+from folium.features import GeoJsonTooltip
+
+def Carte_LAYS(df, world_geo):
+    """
+    Carte Folium choroplèthe (LAYS) + tooltip, retourne le HTML (srcDoc pour Dash).
+    """
+
+    # Sécurité : colonne LAYS existe ?
+    if col_lays not in df.columns:
+        raise KeyError(f"Colonne '{col_lays}' absente. Colonnes dispo: {list(df.columns)}")
+
+    # 1) Dernière valeur LAYS par pays
+    df_map = (
+        df[["Code", "Year", col_lays]]
+        .dropna()
+        .sort_values("Year")
+        .drop_duplicates(subset="Code", keep="last")
+        [["Code", col_lays]]
+    )
+
+    # 2) Merge géométrie + données (pour tooltip)
+    gdf = world_geo.merge(df_map, left_on="ADM0_A3", right_on="Code", how="left")
+
+    # 3) Carte
+    m = folium.Map(location=[20, 0], tiles="OpenStreetMap", zoom_start=2)
+
+    folium.Choropleth(
+        geo_data=world_geo.to_json(),
+        data=df_map,
+        columns=["Code", col_lays],
+        key_on="feature.properties.ADM0_A3",
+        fill_color="YlGnBu",
+        fill_opacity=0.7,
+        line_opacity=0.2,
+        nan_fill_color="lightgray",
+        legend_name="LAYS (dernière année disponible)",
+    ).add_to(m)
+
+    # 4) Tooltip au survol
+    folium.GeoJson(
+        gdf.to_json(),
+        tooltip=GeoJsonTooltip(
+            fields=["ADMIN", col_lays],
+            aliases=["Pays", "LAYS"],
+            localize=True,
+>>>>>>> Stashed changes
         ),
     ).add_to(map_folium)
 
