@@ -1,4 +1,4 @@
-/*Style général de la page*/
+/* Style général de la page */
 body {
   margin: 0;
   padding: 0;
@@ -7,7 +7,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Fond uniquement visuel */
+/* Image de fond en filigrane */
 body::before {
   content: "";
   position: fixed;
@@ -21,61 +21,59 @@ body::before {
   pointer-events: none;        
 }
 
-/*Conteneur principal*/
+/* Conteneur principal de la page */
 .container{
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
-
-  /* Fond bleu clair semi-transparent */
   background-color: rgba(239, 240, 240, 0.883); 
 }
 
-/*En-tête du dashboard*/
+/* En-tête du dashboard */
 .header{
   background: white;
   padding: 18px;
-  border-radius: 14px;   /* coins arrondis */
-  text-align: center;    /* titre centré */
+  border-radius: 14px;
+  text-align: center;
   margin-bottom: 14px;
 }
 
-/* Cartes des graphiques*/
+/* Cartes contenant les graphiques */
 .card{
   background: white;
   padding: 14px;
   border-radius: 14px;
-  margin: 14px 0;        /* espace entre les cartes */
+  margin: 14px 0;
 }
 
-/* Grille à 2 colonnes (diagramme + histogramme)*/
+/* Grille pour afficher deux graphiques côte à côte */
 .grid{
   display: grid;
-  grid-template-columns: 1fr 1fr; /* deux colonnes égales */
-  gap: 30px;                      /* espace entre les deux cartes */
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 }
 
-/*Titres*/
+/* Titres de la page */
 h1, h3{
-  text-align: center;    /* titres centrés */
+  text-align: center;
 }
 
-/*Texte secondaire définition LAYS, sources)*/
+/* Texte des définitions et sources */
 .small-text{
-  font-size: 12px;       /* texte plus petit */
+  font-size: 12px;
   color: #444;
   text-align: center;
   margin-top: 8px;
 }
 
-/* Sur petit écran (téléphone), les graphiques passent l’un sous l’autre */
+/* Affichage sur téléphones */
 @media (max-width: 900px){
   .grid{
-    grid-template-columns: 1fr; /* une seule colonne sur petit écran */
+    grid-template-columns: 1fr;
   }
 }
 
-/* Onglets (simple) */
+/* Style des onglets */
 .tab {
   padding: 10px !important;
   font-weight: bold;

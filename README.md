@@ -240,6 +240,7 @@ Nous pensons que plusieurs axes d’amélioration sont envisageables :
 - L'ajout d’indicateurs socio-économiques ;
 - L'optimisation de l’interface et de l’expérience utilisateur.
 
+
 VI. Déclaration de conformité – Copyright
 
 Nous certifions que :

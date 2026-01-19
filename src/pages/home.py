@@ -10,18 +10,21 @@ from src.components.graph_diag_hist import (
 )
 from src.components.variables import col_femme, col_homme, col_region, col_lays, col_no_education
 
+# Enregistrement de la page comme page d'accueil
 dash.register_page(__name__, path="/")
 
-# Données
+# Chargement des données
 df_final, world_geo = get_donnees_pretes()
 map_html_string = Carte_LAYS(df_final, world_geo)
 
+# Préparation des listes pour les menus déroulants
 df_ok = df_final.dropna(subset=[col_lays, col_region, col_no_education, "Year"])
 liste_regions = sorted(df_ok[col_region].dropna().unique())
+
 df_pour_le_menu = df_final.dropna(subset=[col_homme, col_femme], how="all")
 liste_pays = sorted(df_pour_le_menu["Entity"].unique())
 
-# Layout 
+# Structure de la page
 layout = html.Div(
     className="container",  
     children=[
@@ -34,12 +37,12 @@ layout = html.Div(
             ],
         ),
 
-        # Système d’onglets
+        # Système d'onglets pour organiser les différentes visualisations
         dcc.Tabs(
-            value="tab-carte",  # onglet affiché par défaut
+            value="tab-carte",
             children=[
 
-                # ONGLET 1 : CARTE 
+                # Premier onglet : carte mondiale
                 dcc.Tab(
                     label="Carte (LAYS)",
                     children=[
@@ -48,13 +51,13 @@ layout = html.Div(
                             children=[
                                 html.H3("Carte du Monde (LAYS)"),
 
-                                # Texte explicatif
+                                # Explication de ce qu'est le LAYS
                                 html.P(
-                                    "LAYS : nombre moyen d’années de scolarité ajustées selon la qualité des apprentissages.",
+                                    "LAYS : nombre moyen d'années de scolarité ajustées selon la qualité des apprentissages.",
                                     className="small-text",
                                 ),
 
-                                # Carte intégrée via un iframe
+                                # Intégration de la carte Folium via iframe
                                 html.Iframe(
                                     srcDoc=map_html_string,
                                     width="100%",
@@ -66,34 +69,34 @@ layout = html.Div(
                     ],
                 ),
 
-                # ONGLET 2 : ANALYSE PAR PAYS
+                # Deuxième onglet : analyse détaillée par pays
                 dcc.Tab(
                     label="Analyse par pays",
                     children=[
 
-                        # Carte contenant le choix du pays
+                        # Zone de sélection du pays
                         html.Div(
                             className="card",
                             children=[
                                 html.H3("Choix du pays"),
 
-                                # Menu déroulant pour sélectionner un pays
+                                # Menu déroulant avec la liste des pays
                                 dcc.Dropdown(
-                                    id="mon-dropdown",  # utilisé dans les callbacks
+                                    id="mon-dropdown",
                                     options=[{"label": p, "value": p} for p in liste_pays],
-                                    value="France",  # pays sélectionné par défaut
-                                    clearable=False,  # on ne peut pas enlever la sélection
+                                    value="France",
+                                    clearable=False,
                                     style={"width": "50%"},
                                 ),
                             ],
                         ),
 
-                        # Grille contenant les graphiques
+                        # Disposition en grille des deux graphiques
                         html.Div(
                             className="grid",
                             children=[
 
-                                # Graphique 1 : enfants non scolarisés
+                                # Graphique sur les enfants non scolarisés
                                 html.Div(
                                     className="card",
                                     children=[
@@ -105,7 +108,7 @@ layout = html.Div(
                                     ],
                                 ),
 
-                                # Graphique 2 : répartition par niveaux scolaires
+                                # Graphique camembert des niveaux scolaires
                                 html.Div(
                                     className="card",
                                     children=[
@@ -121,12 +124,12 @@ layout = html.Div(
                     ],
                 ),
 
-                # ===== ONGLET 3 : ANALYSE PAR RÉGIONS =====
+                # Troisième onglet : analyse par régions du monde
                 dcc.Tab(
                     label="Analyse par régions",
                     children=[
 
-                        # Histogramme par région
+                        # Histogramme comparatif des régions
                         html.Div(
                             className="card",
                             children=[
@@ -138,13 +141,13 @@ layout = html.Div(
                             ],
                         ),
 
-                        # Scatter plot avec sélection de régions
+                        # Nuage de points avec filtre par régions
                         html.Div(
                             className="card",
                             children=[
                                 html.H3("LAYS vs absence d'éducation"),
 
-                                # Sélection multiple des régions
+                                # Menu pour sélectionner une ou plusieurs régions
                                 dcc.Dropdown(
                                     id="region-scatter",
                                     options=[{"label": r, "value": r} for r in liste_regions],
@@ -164,7 +167,8 @@ layout = html.Div(
         ),
     ],
 )
-# Callbacks
+
+# Fonction qui met à jour les graphiques quand on change de pays
 @callback(
     Output("mon-graphique", "figure"),
     Output("graph-camembert", "figure"),
@@ -176,7 +180,7 @@ def update_visuals(pays_choisi):
         Camembert_niveaux(df_final, pays_choisi),
     )
 
-
+# Fonction qui met à jour le nuage de points selon les régions sélectionnées
 @callback(
     Output("graph-scatter", "figure"),
     Input("region-scatter", "value"),
