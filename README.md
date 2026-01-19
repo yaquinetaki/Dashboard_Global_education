@@ -6,7 +6,7 @@ Dashboard_Global_education/
 │
 ├── assets/                       # Ressources visuelles : CSS automatiquement chargé par Dash
 │   └── style.css
-│   ├── images/                   # Captures d’écran du dashboard
+│   ├── images/                   # Fond d'écran du dashboard
 │
 ├── data/                         # Dossier des données
 │   │
