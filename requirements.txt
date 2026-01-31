@@ -4,5 +4,4 @@ branca
 dash
 geopandas
 plotly
-plotly.express
 requests
