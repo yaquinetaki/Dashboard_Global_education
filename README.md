@@ -1,6 +1,5 @@
 
-                                 Arborescence de notre projet : 
-
+Arborescence de notre projet : 
 
 Dashboard_Global_education/
 │
@@ -50,7 +49,7 @@ Dashboard_Global_education/
 ├── README.md                     # Documentation du projet
 └── requirements.txt              # Bibliothèques Python nécessaires
 
-                                                        🌍 Dashboard Global Education
+Dashboard Global Education lien du dataset : http://kaggle.com/datasets/imtkaggleteam/global-education
 
 Notre dashboard consiste en un projet de visualisation interactive de données éducatives mondiales.
 
@@ -62,23 +61,16 @@ Il s’inscrit dans le cadre d’un travail académique visant à manipuler, ana
 • Notre dashboard permet notamment :
 
     - la visualisation d’indicateurs éducatifs globaux ;
-
     - l’analyse comparative entre pays ;
-
     - l’identification d’inégalités régionales ;
-
     - la représentation spatiale via une carte du monde ;
-
     - l’utilisation de graphiques interactifs basés sur des données réelles.
 
 • Il repose principalement sur :
 
     - Python pour le traitement et la manipulation des données ;
-
     - Dash et Plotly pour la visualisation interactive ;
-
     - Pandas pour la structuration et la préparation des jeux de données ;
-
     - un shapefile géographique pour la dimension cartographique.
 
 II. Manuel d’utilisation (User Guide)
@@ -86,7 +78,6 @@ II. Manuel d’utilisation (User Guide)
 1. Prérequis
 
 Pour exécuter l’application, l’utilisateur doit disposer d’une version de Python 3.10 ou supérieure, de Git et d’un navigateur web récent.
-
 -> Une fois le projet installé, aucune connexion internet n’est requise puisque les données sont stockées localement.
 
 2. Installation du projet
@@ -94,7 +85,6 @@ Pour exécuter l’application, l’utilisateur doit disposer d’une version de
 Étape 1 : Clonage du dépôt
 
 Le projet doit être cloné depuis GitHub puis ouvert dans l’environnement de travail :
-
 git clone https://github.com/yaquinetaki/Dashboard_Global_education.git
 cd Dashboard_Global_education
 
@@ -103,39 +93,31 @@ cd Dashboard_Global_education
 Un environnement virtuel Python doit être créé puis activé afin d’isoler les dépendances du projet.
 
 Sous Windows (PowerShell) :
-
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 
-
 Sous macOS / Linux :
-
 python -m venv .venv
 source .venv/bin/activate
 
 Étape 3 : Installation des dépendances
 
 L’ensemble des bibliothèques nécessaires est installé via le fichier requirements.txt :
-
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
 3. Lancement et arrêt du dashboard
 
 L’application est lancée en exécutant le fichier principal du projet :
-
-            python main.py
-
+python main.py
 
 Une adresse locale est alors générée (du type http://127.0.0.1:805X/) et permet l’accès au dashboard depuis un navigateur.
 
 Pour arrêter l’application, il suffit d’interrompre l’exécution dans le terminal :
-
-            CTRL + C
+CTRL + C
 
 L’environnement virtuel peut ensuite, si besoin, être désactivé :
-
-            deactivate
+deactivate
 
 4. Navigation dans le dashboard
 
@@ -146,13 +128,11 @@ Le dashboard est organisé sous forme de 3 onglets (Tabs) qui sont accessibles d
 • Onglet Analyse par pays :
 
     - diagramme en barres : enfants non scolarisés (filles vs garçons) ;
-
     - camembert : répartition des niveaux scolaires (primaire / secondaire / tertiaire) pour la dernière année complète disponible.
 
 • Onglet Analyse par régions :
 
     - histogramme : taux d’inscription tertiaire femmes/hommes par région ;
-
     - nuage de points : relation entre LAYS et absence d’éducation, avec filtre interactif par région.
 
 III. Données utilisées
@@ -162,9 +142,7 @@ III. Données utilisées
 Les données sont structurées en trois catégories :
 
 - les données brutes (fichiers CSV sources) ;
-
 - les données nettoyées et prêtes à l’analyse ;
-
 - les données géographiques destinées à la cartographie.
 
 -> Le répertoire data/raw regroupe les fichiers CSV originaux.
@@ -174,14 +152,10 @@ Les données sont structurées en trois catégories :
 2. Nature des données
 
 Les données portent principalement sur :
-
-les indicateurs généraux d’éducation ;
-
-le nombre d’enfants non scolarisés ;
-
-les écarts entre genres ;
-
-différents niveaux éducatifs.
+    les indicateurs généraux d’éducation ;
+    le nombre d’enfants non scolarisés ;
+    les écarts entre genres ;
+    différents niveaux éducatifs.
 
 -> Les fichiers géographiques permettent d’associer les pays à une dimension spatiale.
 -> Le fichier cleaned_data.csv constitue la version harmonisée, filtrée et prête à être exploitée par l’application.
@@ -190,17 +164,16 @@ différents niveaux éducatifs.
 
 Le traitement des données est assuré par des scripts dédiés. Les principales étapes comprennent :
 
-l’harmonisation des noms de pays ;
+    l’harmonisation des noms de pays ;
+    la gestion des valeurs manquantes ;
+    l’agrégation des indicateurs pertinents ;
+    la fusion des différents ensembles de données ;
+    la production d’un fichier final unique.
 
-la gestion des valeurs manquantes ;
+Schéma simplifié du flux de données :
+Données brutes (CSV) → nettoyage et harmonisation (clean_data.py) → fusion des indicateurs (get_data.py) → génération du fichier final cleaned_data.csv  
 
-l’agrégation des indicateurs pertinents ;
-
-la fusion des différents ensembles de données ;
-
-la production d’un fichier final unique.
-
-IV. Guide développeur (Developer Guide)
+IV. Guide développeur 
 
 1. Structure générale du projet
 
@@ -209,36 +182,26 @@ Le projet est structuré de manière modulaire afin de favoriser la lisibilité,
 Notre dashboard comprend :
 
 • un répertoire de données organisé par niveaux de traitement ;
-
 • un répertoire src contenant le code source ;
-
 • des fichiers principaux dédiés à la configuration et à l’exécution de l’application.
 
 2. Rôle des modules principaux
 
 -> main.py constitue le point d’entrée de l’application. Il initialise Dash et lance l’interface générale.
-
 -> clean_data.py gère les opérations de nettoyage et de préparation des données.
-
 -> graph_diag_hist.py regroupe les fonctions générant les graphiques et éléments visuels :
 
     • une carte choroplèthe mondiale (LAYS) ;
-
     • un diagramme en barres sur les enfants non scolarisés (filles vs garçons) ;
-
     • un histogramme comparatif par région (inscription tertiaire femmes/hommes) ;
-
     • un nuage de points illustrant la relation entre qualité de l’apprentissage (LAYS) et absence d’éducation ;
-
     • un graphique en camembert synthétisant la répartition des niveaux éducatifs (primaire / secondaire / tertiaire).
 
 -> home.py définit la page principale du dashboard et organise l’interface sous forme d’onglets (Tabs).
     • Il gère également l’interactivité grâce aux callbacks Dash :
 
         - la mise à jour des graphiques selon le pays sélectionné (diagramme + camembert) ;
-
         - la mise à jour du nuage de points selon les régions sélectionnées.
-
         - les éléments du dossier data_geo servent de support cartographique.
 
 3. Possibilités d’évolution
@@ -246,9 +209,7 @@ Notre dashboard comprend :
 Le projet peut évoluer à travers plusieurs axes :
 
 -> l'ajout de nouveaux graphiques et indicateurs ;
-
 -> l'enrichissement des interactions utilisateur ;
-
 -> l'amélioration de la représentation géographique et de l’ergonomie.
 
 V. Rapport d’analyse synthétique
@@ -274,11 +235,8 @@ L’analyse fait apparaître :
 Certaines limites doivent être prises en compte :
 
 - Notamment la disponibilité inégale des données selon les pays ;
-
 - L'hétérogénéité des sources ;
-
 - La périodicité variable des indicateurs ;
-
 - Et la présence de données manquantes.
 
 3. Perspectives d’amélioration
@@ -286,19 +244,18 @@ Certaines limites doivent être prises en compte :
 Plusieurs axes d’amélioration sont envisageables :
 
 - L'approfondissement de la dimension temporelle ;
-
 - L'amélioration de la précision géographique ;
-
 - L'ajout d’indicateurs socio-économiques ;
-
-- Et l'optimisation de l’interface et de l’expérience utilisateur.
+- Et l'optimisation de l’interface et de l’expérience utilisateur avec une carte intéracive.
 
 VI. Déclaration de conformité – Copyright
 
+Licence : 
+Ce projet est réalisé dans un cadre académique.
+Il est librement consultable à des fins pédagogiques.
+Toute réutilisation du code ou des données doit mentionner les auteurs.
+
 Nous certifions que :
-
 Le code contenu dans ce dépôt a été produit par le binôme Seridj Ines et Taki Yaquine.
-
 Toute portion de code issue d’une ressource externe est clairement citée et documentée.
-
 Toute absence de mention constitue un cas de plagiat conformément aux règles académiques en vigueur.

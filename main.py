@@ -9,7 +9,6 @@ app.layout = html.Div([
     dash.page_container
 ])
 
-# Point d'entrée de l'application
 if __name__ == '__main__':
     print("Lancement sur http://127.0.0.1:8053/")
     app.run(debug=True, port=8053)

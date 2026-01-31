@@ -15,9 +15,6 @@ import plotly.express as px
 import folium
 
 def Carte_LAYS(df, world_geo):
-    """
-    Crée une carte Folium choroplèthe (LAYS) et retourne le HTML prêt à afficher.
-    """
     # On garde seulement les pays qui ont des données LAYS complètes
     df_map_filtre = df.dropna(subset=['Code', 'Year', col_lays])
     
@@ -93,10 +90,6 @@ def Carte_LAYS(df, world_geo):
 
 
 def Camembert_niveaux(df, nom_pays):
-    """
-    Crée un graphique en camembert qui montre la répartition des élèves 
-    entre primaire, secondaire et tertiaire pour un pays donné.
-    """
     # On vérifie qu'on a bien les données pour les 3 niveaux
     colonnes_requises = [col_F_P, col_M_P, col_F_S, col_M_S, col_taux_F_t, col_taux_H_t] 
     df_pays_complet = df[df['Entity'] == nom_pays].dropna(subset=colonnes_requises)
@@ -128,10 +121,6 @@ def Camembert_niveaux(df, nom_pays):
     return fig
 
 def Diagramme_enfants_non_scolarisé(df, nom_pays):
-    """
-    Crée un diagramme en barres qui montre l'évolution du nombre d'enfants 
-    non scolarisés (filles vs garçons) dans un pays.
-    """
     # On filtre pour le pays choisi et on trie par année
     df_pays = df[df["Entity"] == nom_pays].sort_values("Year")
 
@@ -176,10 +165,6 @@ def Diagramme_enfants_non_scolarisé(df, nom_pays):
     return fig
 
 def Histogramme(df):
-    """
-    Crée un histogramme horizontal montrant les taux de scolarisation 
-    tertiaire par région (comparaison femmes/hommes) avec effet miroir.
-    """
     # On garde seulement les données récentes (après 2010)
     df_histo_filtre = df.dropna(subset=["Code", "Year", col_taux_F_t, col_taux_H_t])
     df_histo_filtre = df_histo_filtre[df_histo_filtre["Year"] >= 2010]
@@ -257,10 +242,6 @@ def Histogramme(df):
     return his
 
 def Nuage_de_points(df, regions_choisies):
-    """
-    Crée un nuage de points montrant la relation entre le niveau d'éducation (LAYS) 
-    et le pourcentage de population sans éducation, avec possibilité de filtrer par régions.
-    """
     # On garde les données de 2020 avec un taux de non-éducation positif
     df_scatter = df.dropna(subset=[col_lays, col_no_education, col_region, "Year"])
     df_scatter = df_scatter[(df_scatter["Year"] == 2020) & (df_scatter[col_no_education] > 0)]
